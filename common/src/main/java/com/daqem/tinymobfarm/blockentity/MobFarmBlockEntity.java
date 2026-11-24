@@ -1,6 +1,5 @@
 package com.daqem.tinymobfarm.blockentity;
 
-import com.daqem.knot.Knot;
 import com.daqem.tinymobfarm.MobFarmType;
 import com.daqem.tinymobfarm.TinyMobFarm;
 import com.daqem.tinymobfarm.client.gui.MobFarmMenu;
@@ -190,7 +189,7 @@ public class MobFarmBlockEntity extends BlockEntity implements MenuProvider, Con
                 for (ItemStack drop : drops) {
                     if (drop.isEmpty()) continue;
 
-                    ItemStack remainder = Knot.ITEM_TRANSFER.insertItem(
+                    ItemStack remainder = TinyMobFarm.PLATFORM.insertItem(
                             serverLevel,
                             targetPos,
                             targetSide,

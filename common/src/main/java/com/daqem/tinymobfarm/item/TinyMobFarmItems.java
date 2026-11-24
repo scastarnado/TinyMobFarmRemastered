@@ -1,9 +1,7 @@
 package com.daqem.tinymobfarm.item;
 
-import com.daqem.knot.Knot;
-import com.daqem.knot.registry.Registry;
-import com.daqem.knot.registry.RegistryEntry;
-import com.daqem.knot.registry.creativetab.ItemPropertiesExtension;
+import com.daqem.tinymobfarm.platform.Registry;
+import com.daqem.tinymobfarm.platform.RegistryEntry;
 import com.daqem.tinymobfarm.TinyMobFarm;
 import com.daqem.tinymobfarm.block.TinyMobFarmBlocks;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -13,7 +11,7 @@ import java.util.function.Function;
 
 public interface TinyMobFarmItems {
 
-    Registry<Item> ITEMS = Knot.REGISTRAR.createRegistry(BuiltInRegistries.ITEM, TinyMobFarm.MOD_ID);
+    Registry<Item> ITEMS = new Registry<>(BuiltInRegistries.ITEM, TinyMobFarm.MOD_ID);
 
     RegistryEntry<MobFarmBlockItem> WOODEN_MOB_FARM = blockItem("wood_farm", p -> new MobFarmBlockItem(TinyMobFarmBlocks.WOODEN_MOB_FARM_BLOCK.get(), p));
     RegistryEntry<MobFarmBlockItem> STONE_MOB_FARM = blockItem("stone_farm", p -> new MobFarmBlockItem(TinyMobFarmBlocks.STONE_MOB_FARM_BLOCK.get(), p));
@@ -30,6 +28,6 @@ public interface TinyMobFarmItems {
     }
 
     static <T extends Item> RegistryEntry<T> item(String id, Function<Item.Properties, T> constructor) {
-        return ITEMS.register(id, (key) -> constructor.apply(((ItemPropertiesExtension) new Item.Properties().setId(key)).knot$tab(TinyMobFarm.TINY_MOB_FARM_TAB.getKey())));
+        return ITEMS.register(id, (key) -> constructor.apply(new Item.Properties().setId(key)));
     }
 }

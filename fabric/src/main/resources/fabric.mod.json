@@ -14,6 +14,7 @@
   "license": "${mod_license}",
   "icon": "icon.png",
   "environment": "*",
+  "accessWidener": "tinymobfarm.accesswidener",
   "entrypoints": {
     "main": [
       "com.daqem.tinymobfarm.fabric.TinyMobFarmCommonFabric"
@@ -26,9 +27,10 @@
     "tinymobfarm-common.mixins.json"
   ],
   "depends": {
+    "fabricloader": ">=${fabric_loader_version}",
+    "java": ">=25",
     "fabric-api": ">=${fabric_version}",
-    "minecraft": ">=${minecraft_version}",
-    "knot": ">=${knot_version}",
+    "minecraft": "~${minecraft_version}",
     "yamlconfig": ">=${yamlconfig_version}",
     "uilib": ">=${uilib_version}"
   }

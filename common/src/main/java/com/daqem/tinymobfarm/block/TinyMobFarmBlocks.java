@@ -1,8 +1,7 @@
 package com.daqem.tinymobfarm.block;
 
-import com.daqem.knot.Knot;
-import com.daqem.knot.registry.Registry;
-import com.daqem.knot.registry.RegistryEntry;
+import com.daqem.tinymobfarm.platform.Registry;
+import com.daqem.tinymobfarm.platform.RegistryEntry;
 import com.daqem.tinymobfarm.MobFarmType;
 import com.daqem.tinymobfarm.TinyMobFarm;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -13,7 +12,7 @@ import java.util.function.Function;
 
 public interface TinyMobFarmBlocks {
 
-    Registry<Block> BLOCKS = Knot.REGISTRAR.createRegistry(BuiltInRegistries.BLOCK, TinyMobFarm.MOD_ID);
+    Registry<Block> BLOCKS = new Registry<>(BuiltInRegistries.BLOCK, TinyMobFarm.MOD_ID);
 
     RegistryEntry<MobFarmBlock> WOODEN_MOB_FARM_BLOCK = block("wood_farm", p -> new MobFarmBlock(MobFarmType.WOOD, p));
     RegistryEntry<MobFarmBlock> STONE_MOB_FARM_BLOCK = block("stone_farm", p -> new MobFarmBlock(MobFarmType.STONE, p));

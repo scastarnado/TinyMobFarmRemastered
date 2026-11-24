@@ -54,7 +54,7 @@ public class LassoItem extends Item {
                 serverPlayer.sendSystemMessage(TinyMobFarm.translatable("error.blacklist_mob").withStyle(ChatFormatting.RED));
                 return InteractionResult.SUCCESS;
             }
-            try (ProblemReporter.ScopedCollector scopedCollector = new ProblemReporter.ScopedCollector(target.problemPath(), TinyMobFarm.API.LOGGER)) {
+            try (ProblemReporter.ScopedCollector scopedCollector = new ProblemReporter.ScopedCollector(target.problemPath(), TinyMobFarm.LOGGER)) {
                 TagValueOutput mobData = TagValueOutput.createWithContext(scopedCollector, target.registryAccess());
                 target.saveWithoutId(mobData);
 

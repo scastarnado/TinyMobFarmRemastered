@@ -94,7 +94,7 @@ public class MobFarmRenderer implements BlockEntityRenderer<MobFarmBlockEntity, 
         poseStack.pushPose();
         poseStack.translate(0.5F, 0.126F, 0.5F);
         poseStack.scale(scale, scale, scale);
-        poseStack.mulPose(Axis.YP.rotationDegrees(-angle));
+        poseStack.rotateDegrees(Axis.YP, -angle);
         entityRenderDispatcher.submit(entityRenderState, cameraRenderState, 0.0, 0.0, 0.0, poseStack, submitNodeCollector);
         poseStack.popPose();
     }

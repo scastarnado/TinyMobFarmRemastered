@@ -1,6 +1,5 @@
 package com.daqem.tinymobfarm.config;
 
-import com.daqem.knot.api.platform.Platform;
 import com.daqem.tinymobfarm.TinyMobFarm;
 import com.daqem.yamlconfig.api.config.ConfigExtension;
 import com.daqem.yamlconfig.api.config.ConfigType;
@@ -53,7 +52,7 @@ public class TinyMobFarmConfig {
                 TinyMobFarm.MOD_ID + "_common",
                 ConfigExtension.YAML,
                 ConfigType.COMMON,
-                Platform.INFO.getConfigFolder().resolve(TinyMobFarm.MOD_ID)
+                TinyMobFarm.PLATFORM.configDirectory().resolve(TinyMobFarm.MOD_ID)
         );
 
         builder.push("lasso");

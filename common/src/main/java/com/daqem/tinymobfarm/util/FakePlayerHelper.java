@@ -1,18 +1,17 @@
 package com.daqem.tinymobfarm.util;
 
 import java.util.UUID;
+import com.daqem.tinymobfarm.TinyMobFarm;
 
-import com.daqem.knot.Knot;
 import com.mojang.authlib.GameProfile;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 
 public class FakePlayerHelper {
-	private static ServerPlayer fakePlayer;
+	private static final GameProfile PROFILE = new GameProfile(UUID.fromString("8c600ac8-8827-4b50-becf-68d686dc65cc"), "[TinyMobFarm]");
 
 	public static ServerPlayer getPlayer(ServerLevel serverLevel) {
-		if (fakePlayer == null) fakePlayer = Knot.FAKE_PLAYER.getFakePlayer(serverLevel, new GameProfile(UUID.randomUUID(), "[TinyMobFarm_DanielTheEgg]"));
-		return fakePlayer;
+		return TinyMobFarm.PLATFORM.fakePlayer(serverLevel, PROFILE);
 	}
 }

@@ -68,7 +68,6 @@ processResources {
             "fabric_version"          : project.fabric_version,
             "fabric_loader_version"   : project.fabric_loader_version,
             "neoforge_version"        : project.neoforge_version,
-            "knot_version"            : project.knot_version,
             "uilib_version"           : project.uilib_version,
             "yamlconfig_version"      : project.yamlconfig_version
     ]

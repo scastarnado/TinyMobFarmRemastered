@@ -7,7 +7,7 @@
   ],
   "mixins": [
     "EnchantmentMixin",
-    "RecipeManagerMixin"
+    "RecipeMapMixin"
   ],
   "injectors": {
     "defaultRequire": 1

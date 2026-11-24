@@ -1,16 +1,15 @@
 package com.daqem.tinymobfarm.block;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import com.daqem.tinymobfarm.TinyMobFarm;
 import com.daqem.tinymobfarm.blockentity.MobFarmBlockEntity;
 import com.daqem.tinymobfarm.MobFarmType;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -123,7 +122,7 @@ public class MobFarmBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	public void playerDestroy(Level level, @NonNull Player player, @NonNull BlockPos blockPos, @NonNull BlockState blockState, @Nullable BlockEntity blockEntity, @NonNull ItemStack itemStack) {
+	public void playerDestroy(ServerLevel level, @NonNull ServerPlayer player, @NonNull BlockPos blockPos, @NonNull BlockState blockState, @Nullable BlockEntity blockEntity, @NonNull ItemStack itemStack) {
 		BlockEntity tileEntity = level.getBlockEntity(blockPos);
 		if (tileEntity instanceof MobFarmBlockEntity mobFarmBlockEntity) {
 			ItemStack lasso = mobFarmBlockEntity.getLasso();
@@ -155,15 +154,6 @@ public class MobFarmBlock extends BaseEntityBlock {
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NonNull Level level, @NonNull BlockState blockState, @NonNull BlockEntityType<T> blockEntityType) {
 		return MobFarmBlock.createTickerHelper(blockEntityType, TinyMobFarm.MOB_FARM_TILE_ENTITY.get(), MobFarmBlockEntity::tick);
-	}
-
-	@Override
-	protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
-		return MobFarmBlock.simpleCodecWithMobFarmType(x -> new MobFarmBlock(x, BlockBehaviour.Properties.of()), mobFarmType);
-	}
-
-	public static <B extends Block> MapCodec<B> simpleCodecWithMobFarmType(Function<MobFarmType, B> function, MobFarmType mobFarmType) {
-		return RecordCodecBuilder.mapCodec(instance -> instance.group(BlockBehaviour.propertiesCodec()).apply(instance, properties1 -> function.apply(mobFarmType)));
 	}
 
 	@Override

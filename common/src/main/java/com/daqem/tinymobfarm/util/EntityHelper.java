@@ -1,6 +1,5 @@
 package com.daqem.tinymobfarm.util;
 
-import com.daqem.knot.api.util.EntityHooks;
 import com.daqem.tinymobfarm.config.TinyMobFarmConfig;
 import com.daqem.tinymobfarm.TinyMobFarm;
 import com.daqem.tinymobfarm.item.component.LassoData;
@@ -17,6 +16,14 @@ import net.minecraft.world.entity.EntitySpawnRequest;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +43,28 @@ public class EntityHelper {
         // Otherwise, pass an empty stack so no looting is applied.
         ItemStack weapon = TinyMobFarmConfig.allowLassoLooting.get() ? stack : ItemStack.EMPTY;
 
-        return EntityHooks.generateLoot(level, entity, daniel, weapon);
+        var tableKey = entity.getType().getDefaultLootTable();
+        if (tableKey.isEmpty()) return List.of();
+        var looting = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.LOOTING);
+        ItemStack sword = new ItemStack(Items.DIAMOND_SWORD);
+        int lootingLevel = EnchantmentHelper.getItemEnchantmentLevel(looting, weapon);
+        if (lootingLevel > 0) sword.enchant(looting, lootingLevel);
+
+        ItemStack previousWeapon = daniel.getMainHandItem();
+        try {
+            daniel.setItemInHand(InteractionHand.MAIN_HAND, sword);
+            var context = new LootParams.Builder(level)
+                    .withParameter(LootContextParams.THIS_ENTITY, entity)
+                    .withParameter(LootContextParams.ORIGIN, entity.position())
+                    .withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().playerAttack(daniel))
+                    .withParameter(LootContextParams.ATTACKING_ENTITY, daniel)
+                    .withParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, daniel)
+                    .withParameter(LootContextParams.LAST_DAMAGE_PLAYER, daniel)
+                    .create(LootContextParamSets.ENTITY);
+            return level.getServer().reloadableRegistries().getLootTable(tableKey.get()).getRandomItems(context);
+        } finally {
+            daniel.setItemInHand(InteractionHand.MAIN_HAND, previousWeapon);
+        }
     }
 
     public static Entity getEntityFromLasso(ItemStack lasso, BlockPos pos, Level level) {
